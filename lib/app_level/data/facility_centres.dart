@@ -29,6 +29,9 @@ class FacilityMarkers {
           infoWindow: InfoWindow(
             title: FacilityCentresData.centerData[i].placeTitle,
             snippet: FacilityCentresData.centerData[i].placeSnippet,
+            onTap: (){
+              print("Tapped here");
+            }
           ),
           markerId: MarkerId(i.toString()),
           position: FacilityCentresData.centerData[i].position,

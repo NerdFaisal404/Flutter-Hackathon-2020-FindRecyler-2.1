@@ -51,9 +51,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> onSuggestionSelect(MapModelData suggestion) async {
     searchController.text = suggestion.placeTitle;
-    
+
     final CameraPosition selectedMarker = CameraPosition(
-      target: LatLng(suggestion.position.latitude, suggestion.position.longitude),
+      target:
+          LatLng(suggestion.position.latitude, suggestion.position.longitude),
       zoom: 15,
     );
 
@@ -66,8 +67,17 @@ class _HomeScreenState extends State<HomeScreen> {
     //
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLevelConstants.appName),
+      // appBar: AppBar(
+      //   title: Text(AppLevelConstants.appName),
+      // ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {print("tes");},
+        label: Row(
+          children: <Widget>[
+            Icon(Icons.add),
+            Text('Add Facility'),
+          ],
+        ),
       ),
       body: SafeArea(
         child: Stack(
@@ -81,65 +91,48 @@ class _HomeScreenState extends State<HomeScreen> {
               markers: _markers,
             ),
             Padding(
-              padding: EdgeInsets.all(5),
+              padding: EdgeInsets.all(15),
               child: TypeAheadField(
-              textFieldConfiguration: TextFieldConfiguration(
-                controller: searchController,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                  suffixIcon: Icon(Icons.search),
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide:BorderSide(width: 0.0, color: Colors.white),
+                textFieldConfiguration: TextFieldConfiguration(
+                  controller: searchController,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(
+                          width: 0.0,
+                          color: Colors.white,
+                          style: BorderStyle.none),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(
+                          width: 1.0,
+                          color: Colors.green,
+                          style: BorderStyle.none),
+                    ),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                    suffixIcon: Icon(Icons.search),
+                    filled: true,
+                    hintText: "Search...",
+                    fillColor: Colors.white,
+                    // border: OutlineInputBorder(
+                    //   borderRadius: BorderRadius.circular(10.0),
+                    //   borderSide:BorderSide(width: 0.0, color: Colors.white, style: BorderStyle.none),
+                    // ),
                   ),
                 ),
-              ),
-              suggestionsCallback: (pattern) async {
-                return await FacilityCentresData.filterData(pattern);
-              },
-              itemBuilder: (context, MapModelData suggestion) {
-                return ListTile(
-                    title: Text(suggestion.placeTitle),
-                    subtitle: Text(suggestion.placeSnippet));
-              },
-              onSuggestionSelected: (MapModelData suggestion) {
-                onSuggestionSelect(suggestion);
-              },
-            ),
-            ),
-            Positioned(
-              bottom: 5,
-              left: 5,
-              right: 5,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  FlatButton(
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    color: Colors.green,
-                    onPressed: () {},
-                    child: Text(
-                      "Add a Facility!",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  FlatButton(
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    color: Colors.green,
-                    onPressed: () {},
-                    child: Text(
-                      "Discard Item",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ],
+                suggestionsCallback: (pattern) async {
+                  return await FacilityCentresData.filterData(pattern);
+                },
+                itemBuilder: (context, MapModelData suggestion) {
+                  return ListTile(
+                      title: Text(suggestion.placeTitle),
+                      subtitle: Text(suggestion.placeSnippet));
+                },
+                onSuggestionSelected: (MapModelData suggestion) {
+                  onSuggestionSelect(suggestion);
+                },
               ),
             ),
           ],
